@@ -1,12 +1,22 @@
+import { useLabels } from '../hooks';
+
 export const LabelPicker = () => {
+  const labelsQuery = useLabels();
+
+  if (labelsQuery.isLoading)
+    return (<div>Loading...</div>);
+
   return (
     <div>
-      <span
-        className="badge rounded-pill m-1 label-picker"
-        style={{ border: `1px solid #ffccd3`, color: '#ffccd3' }}
-      >
-        Primary
-      </span>
+      {labelsQuery.data?.map(label => (
+        <span
+          key={label.id}
+          className="badge rounded-pill m-1 label-picker"
+          style={{ border: `1px solid #${label.color}`, color: `#${label.color}` }}
+        >
+          {label.name}
+        </span>
+      ))}
     </div>
   );
 };
