@@ -1,1 +1,1 @@
-export * from './LoadingIcon';
+export { LoadingIcon } from './LoadingIcon';
