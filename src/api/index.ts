@@ -1,2 +1,1 @@
 export { githubApi } from './githubApi';
-
