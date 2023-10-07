@@ -9,9 +9,10 @@ interface Props {
 }
 
 export const LabelPicker: FC<Props> = ({ selectedLabels, onChange }) => {
-  const labelsQuery = useLabels();
+  const { labelsQuery } = useLabels();
 
-  if (labelsQuery.isLoading) return (<LoadingIcon />);
+  if (labelsQuery.isLoading)
+    return (<LoadingIcon />);
 
   return (
     <div>
