@@ -31,7 +31,7 @@ export const IssueItem: FC<Props> = ({ issue }) => {
     queryClient.setQueryData(
       ['issue', number],
       issue,
-      // { updatedAt: new Date().getTime() + 1000 * 60 * 5 }
+      { updatedAt: new Date().getTime() + 1000 * 60 * 5 }
     );
   };
 
