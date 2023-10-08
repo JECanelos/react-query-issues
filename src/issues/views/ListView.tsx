@@ -26,7 +26,7 @@ export const ListView = () => {
           <IssueList
             issues={issuesQuery.data || []}
             state={state}
-            onStateChange={newState => setstate(newState)}
+            handleStateChange={newState => setstate(newState)}
           />
         )}
       </div>

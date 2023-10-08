@@ -5,11 +5,11 @@ import { IssueItem } from './';
 
 interface Props {
   issues: Issue[];
-  onStateChange: (state?: State) => void;
+  handleStateChange: (state?: State) => void;
   state?: State;
 }
 
-export const IssueList: FC<Props> = ({ issues, state, onStateChange }) => {
+export const IssueList: FC<Props> = ({ issues, state, handleStateChange }) => {
   return (
     <div className="card border-white">
       <div className="card-header bg-dark">
@@ -17,7 +17,7 @@ export const IssueList: FC<Props> = ({ issues, state, onStateChange }) => {
           <li className="nav-item">
             <a
               className={`nav-link${!state ? ' active' : ''}`}
-              onClick={() => onStateChange()}
+              onClick={() => handleStateChange()}
             >
               All
             </a>
@@ -25,7 +25,7 @@ export const IssueList: FC<Props> = ({ issues, state, onStateChange }) => {
           <li className="nav-item">
             <a
               className={`nav-link${state === State.Open ? ' active' : ''}`}
-              onClick={() => onStateChange(State.Open)}
+              onClick={() => handleStateChange(State.Open)}
             >
               Open
             </a>
@@ -33,7 +33,7 @@ export const IssueList: FC<Props> = ({ issues, state, onStateChange }) => {
           <li className="nav-item">
             <a
               className={`nav-link${state === State.Closed ? ' active' : ''}`}
-              onClick={() => onStateChange(State.Closed)}
+              onClick={() => handleStateChange(State.Closed)}
             >
               Closed
             </a>
