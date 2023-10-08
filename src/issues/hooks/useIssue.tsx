@@ -4,13 +4,13 @@ import { githubApi } from '../../api';
 import { sleep } from '../../helpers';
 import { Issue } from '../interfaces';
 
-const getIssue = async (issueNumber: number): Promise<Issue> => {
+export const getIssue = async (issueNumber: number): Promise<Issue> => {
   await sleep(2);
   const { data } = await githubApi.get<Issue>(`/issues/${issueNumber}`);
   return data;
 };
 
-const getIssueComments = async (issueNumber: number): Promise<Issue[]> => {
+export const getIssueComments = async (issueNumber: number): Promise<Issue[]> => {
   await sleep(2);
   const { data } = await githubApi.get<Issue[]>(`/issues/${issueNumber}/comments`);
   return data;
@@ -18,12 +18,12 @@ const getIssueComments = async (issueNumber: number): Promise<Issue[]> => {
 
 export const useIssue = (issueNumber: number) => {
   const issueQuery = useQuery(
-    ['issues', issueNumber],
+    ['issue', issueNumber],
     () => getIssue(issueNumber)
   );
 
   const commentsQuery = useQuery(
-    ['issues', issueNumber, 'comments'],
+    ['issue', issueNumber, 'comments'],
     () => getIssueComments(issueQuery.data!.number),
     { enabled: !!issueQuery.data }
   );
