@@ -42,6 +42,11 @@ export const IssueList: FC<Props> = ({ issues, state, handleStateChange }) => {
       </div>
 
       <div className="card-body text-dark">
+        {issues.length === 0 && (
+          <div className="alert alert-info" role="alert">
+            No issues found
+          </div>
+        )}
         {issues.map(issue => (
           <IssueItem key={issue.id} issue={issue} />
         ))}
