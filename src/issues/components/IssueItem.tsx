@@ -5,13 +5,14 @@ import { useNavigate } from 'react-router-dom';
 
 import { getIssue, getIssueComments } from '../hooks';
 import { Issue, State } from '../interfaces';
+import { timeSince } from '../../helpers';
 
 interface Props {
   issue: Issue;
 }
 
 export const IssueItem: FC<Props> = ({ issue }) => {
-  const { comments, number, title, state, user } = issue;
+  const { created_at, comments, number, title, state, user } = issue;
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -51,8 +52,8 @@ export const IssueItem: FC<Props> = ({ issue }) => {
         <div className="d-flex flex-column flex-fill px-2">
           <span>{title}</span>
           <span className="issue-subinfo">
-            #{number} opened 2 days ago by{' '}
-            <span className="fw-bold">{user.login}</span>
+            #{number} opened {timeSince(created_at)} ago{' '}
+            by <span className="fw-bold">{user.login}</span>
           </span>
 
           <div>
