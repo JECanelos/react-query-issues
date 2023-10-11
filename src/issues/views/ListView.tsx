@@ -13,9 +13,7 @@ export const ListView = () => {
 
   const onLabelChange = (labelName: string) => {
     setSelectedLabels(
-      selectedLabels.includes(labelName)
-        ? selectedLabels.filter(label => label !== labelName)
-        : [...selectedLabels, labelName]
+      selectedLabels.includes(labelName) ? selectedLabels.filter(label => label !== labelName) : [...selectedLabels, labelName]
     );
   };
 
