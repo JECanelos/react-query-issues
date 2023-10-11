@@ -12,9 +12,11 @@ export const ListView = () => {
   const { issuesQuery, page, prevPage, nextPage } = useIssues({ state, labels: selectedLabels });
 
   const onLabelChange = (labelName: string) => {
-    (selectedLabels.includes(labelName))
-      ? setSelectedLabels(selectedLabels.filter(label => label !== labelName))
-      : setSelectedLabels([...selectedLabels, labelName]);
+    setSelectedLabels(
+      selectedLabels.includes(labelName)
+        ? selectedLabels.filter(label => label !== labelName)
+        : [...selectedLabels, labelName]
+    );
   };
 
   return (
