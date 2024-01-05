@@ -15,7 +15,7 @@ interface QueryParams {
   queryKey: (string | Params)[];
 }
 
-const getIssues = async ({ pageParam = 1, queryKey }: QueryParams): Promise<Issue[]> => {
+const getIssues = async ({ pageParam = 0, queryKey }: QueryParams): Promise<Issue[]> => {
   await sleep(2);
 
   const [, args] = queryKey;
@@ -32,11 +32,12 @@ const getIssues = async ({ pageParam = 1, queryKey }: QueryParams): Promise<Issu
 };
 
 export const useIssuesInfinite = ({ state, labels }: Params) => {
-  const issuesQuery = useInfiniteQuery(
-    ['issues', { state, labels }],
-    getIssues,
-    { getNextPageParam: (lastPage, pages) => lastPage.length > 0 ? pages.length + 1 : undefined }
-  );
+  const issuesQuery = useInfiniteQuery({
+    queryKey: ['issues', { state, labels }],
+    queryFn: getIssues,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => lastPage.length > 0 ? allPages.length + 1 : undefined,
+  });
 
   return {
     issuesQuery,

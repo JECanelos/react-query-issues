@@ -17,16 +17,16 @@ export const getIssueComments = async (issueNumber: number): Promise<Issue[]> =>
 };
 
 export const useIssue = (issueNumber: number) => {
-  const issueQuery = useQuery(
-    ['issue', issueNumber],
-    () => getIssue(issueNumber)
-  );
+  const issueQuery = useQuery({
+    queryKey: ['issue', issueNumber],
+    queryFn: () => getIssue(issueNumber),
+  });
 
-  const commentsQuery = useQuery(
-    ['issue', issueNumber, 'comments'],
-    () => getIssueComments(issueQuery.data!.number),
-    { enabled: !!issueQuery.data }
-  );
+  const commentsQuery = useQuery({
+    queryKey: ['issue', issueNumber, 'comments'],
+    queryFn: () => getIssueComments(issueQuery.data!.number),
+    enabled: !!issueQuery.data,
+  });
 
   return {
     issueQuery,

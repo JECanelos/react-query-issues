@@ -18,14 +18,14 @@ export const IssueItem: FC<Props> = ({ issue }) => {
   const queryClient = useQueryClient();
 
   const prefetchData = () => {
-    queryClient.prefetchQuery(
-      ['issue', number],
-      () => getIssue(number)
-    );
-    queryClient.prefetchQuery(
-      ['issue', number, 'comments'],
-      () => getIssueComments(number)
-    );
+    queryClient.prefetchQuery({
+      queryKey: ['issue', number],
+      queryFn: () => getIssue(number),
+    });
+    queryClient.prefetchQuery({
+      queryKey: ['issue', number, 'comments'],
+      queryFn: () => getIssueComments(number),
+    });
   };
 
   const preSetData = () => {
