@@ -9,8 +9,8 @@ export const router = createBrowserRouter([
     element: <GitApp />,
     children: [
       { path: 'list', element: <ListView /> },
+      { path: 'list/infinite', element: <ListViewInfinite /> },
       { path: 'issue/:id', element: <IssueView /> },
-      { path: 'issue/infinite', element: <ListViewInfinite /> },
       { path: '*', element: <Navigate to="list" /> },
     ],
   },
