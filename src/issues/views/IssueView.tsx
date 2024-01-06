@@ -21,7 +21,7 @@ export const IssueView = () => {
         <LoadingIcon />
       ) : (
         <>
-          <IssueComment issue={issueQuery.data} />
+          <IssueComment issue={issueQuery.data!} />
 
           {commentsQuery.isLoading && (<LoadingIcon />)}
           {commentsQuery.data?.map(issue => (
