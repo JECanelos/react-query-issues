@@ -6,7 +6,7 @@ List Git issues of the [React GitHub project](https://github.com/facebook/react)
 
 Create a `.env.development.local` file and set the `VITE_GITHUB_TOKEN` environment variable.
 
-To generate this token, log into your GitHub account and click on the following: *User > Settings > Developer settings > Personal access tokens > Fine-grained tokens > Generate new token*
+To generate this token, log into your GitHub account and click on: *User > Settings > Developer settings > Personal access tokens > Fine-grained tokens > Generate new token*
 
 Use the following properties:
 
