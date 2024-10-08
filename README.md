@@ -4,8 +4,10 @@ List Git issues of the [React GitHub project](https://github.com/facebook/react)
 
 ## Features Used
 
-- [`QueryClient`](https://tanstack.com/query/latest/docs/reference/QueryClient)
+- [`QueryClient`](https://tanstack.com/query/latest/docs/reference/QueryClient) / [useQueryClient](https://tanstack.com/query/latest/docs/framework/react/reference/useQueryClient)
   - `defaultOptions`
+  - [`prefetchQuery`](https://tanstack.com/query/latest/docs/reference/QueryClient/#queryclientprefetchquery)
+  - [`setQueryData`](https://tanstack.com/query/latest/docs/reference/QueryClient/#queryclientsetquerydata)
 - [`useQuery`](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery)
   - `staleTime`
   - `enabled`
