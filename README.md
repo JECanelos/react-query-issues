@@ -9,7 +9,7 @@ List Git issues of the [React GitHub project](https://github.com/facebook/react)
   - `initialData`
   - `placeholderData`
 
-- `[useInfiniteQuery9](https://tanstack.com/query/latest/docs/framework/react/reference/useInfiniteQuery)`
+- `[useInfiniteQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useInfiniteQuery)`
   - `staleTime`
   - `initialPageParam`
   - `getNextPageParam`
