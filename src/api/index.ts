@@ -1,1 +1,1 @@
-export { githubApi } from './githubApi';
+export * from './github.api';

@@ -1,33 +1,43 @@
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { FiSkipBack } from 'react-icons/fi';
 
 import { IssueComment } from '../components';
 import { useIssue } from '../hooks';
-import { LoadingIcon } from '../../shared/components';
+import { LoadingSpinner } from '../../shared';
 
 export const IssueView = () => {
-  const { id = '0' }  = useParams();
-  const { commentsQuery, issueQuery } = useIssue(+id);
+  const navigate = useNavigate();
 
-  if (!issueQuery.isLoading && !issueQuery.data)
-    return (<Navigate to="./issues/list" />);
+  const { issueNumber } = useParams();
+  const { issueQuery, issueCommentsQuery } = useIssue(Number(issueNumber ?? 0));
+
+  if (issueQuery.isLoading) {
+    return (<LoadingSpinner />);
+  }
+  if (!issueQuery.data) {
+    return (<Navigate to= "/404" />);
+  }
 
   return (
-    <div className="row mb-5">
-      <div className="col-12 mb-3">
-        <Link to="/issues/list">Go Back</Link>
+    <div className="mb-5">
+      <div className="mb-4">
+        <button
+          onClick={() => navigate(-1)}
+          className="hover:underline text-blue-400 flex items-center"
+        >
+          <FiSkipBack />
+          Regresar
+        </button>
       </div>
 
-      {issueQuery.isLoading ? (
-        <LoadingIcon />
-      ) : (
-        <>
-          <IssueComment issue={issueQuery.data!} />
+      <IssueComment issue={issueQuery.data} />
 
-          {commentsQuery.isLoading && (<LoadingIcon />)}
-          {commentsQuery.data?.map(issue => (
-            <IssueComment key={issue.id} issue={issue} />
-          ))}
-        </>
+      {issueCommentsQuery.isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        issueCommentsQuery.data?.map(comment => (
+          <IssueComment key={comment.id} issue={comment} />
+        ))
       )}
     </div>
   );

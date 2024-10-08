@@ -1,4 +1,4 @@
-export { IssueComment } from './IssueComment';
-export { IssueItem } from './IssueItem';
-export { IssueList } from './IssueList';
-export { LabelPicker } from './LabelPicker';
+export * from './IssueComment';
+export * from './IssueItem';
+export * from './IssueList';
+export * from './LabelPicker';

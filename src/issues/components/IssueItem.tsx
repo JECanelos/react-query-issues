@@ -3,77 +3,82 @@ import { useQueryClient } from '@tanstack/react-query';
 import { FiCheckCircle, FiInfo, FiMessageSquare } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 
-import { getIssue, getIssueComments } from '../hooks';
-import { Issue, State } from '../interfaces';
+import { getIssue } from '../actions';
+import { GithubIssue, State } from '../interfaces';
 import { timeSince } from '../../helpers';
 
 interface Props {
-  issue: Issue;
+  issue: GithubIssue;
 }
 
 export const IssueItem: FC<Props> = ({ issue }) => {
-  const { created_at, comments, number, title, state, user } = issue;
-
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const prefetchData = () => {
     queryClient.prefetchQuery({
-      queryKey: ['issue', number],
-      queryFn: () => getIssue(number),
-    });
-    queryClient.prefetchQuery({
-      queryKey: ['issue', number, 'comments'],
-      queryFn: () => getIssueComments(number),
+      queryKey: ['issues', issue.number],
+      queryFn: () => getIssue(issue.number),
+      staleTime: 1000 * 60, // 1 minute
     });
   };
 
-  const preSetData = () => {
+  const presetData = () => {
     queryClient.setQueryData(
-      ['issue', number],
+      ['issues', issue.number],
       issue,
-      { updatedAt: new Date().getTime() + 1000 * 60 * 5 }
+      { updatedAt: Date.now() }
     );
   };
 
   return (
     <div
-      className="card mb-2 issue"
-      onClick={() => navigate(`/issues/issue/${number}`)}
-      onMouseEnter={preSetData}
+      // onMouseEnter={prefetchData}
+      onMouseEnter={presetData}
+      className="animate-fadeIn flex items-center px-2 py-3 mb-5 border rounded-md bg-slate-900 hover:bg-slate-800"
     >
-      <div className="card-body d-flex align-items-center">
-        {state === State.Open ? (
-          <FiInfo size={30} color="red" />
-        ) : (
-          <FiCheckCircle size={30} color="green" />
-        )}
+      {issue.state === State.Open ? (
+        <FiCheckCircle size={30} color="green" className="min-w-10" />
+      ) : (
+        <FiInfo size={30} color="red" className="min-w-10" />
+      )}
 
-        <div className="d-flex flex-column flex-fill px-2">
-          <span>{title}</span>
-          <span className="issue-subinfo">
-            #{number} opened {timeSince(created_at)} ago{' '}
-            by <span className="fw-bold">{user.login}</span>
-          </span>
+      <div className="flex flex-col flex-grow px-2">
+        <a
+          onClick={() => navigate(`/issues/issue/${issue.number}`)}
+          className="hover:underline cursor-pointer"
+        >
+          {issue.title}
+        </a>
 
-          <div>
-            {issue.labels.map(label => (
-              <span
-                key={label.id}
-                className="badge rounded-pill m-1"
-                style={{ backgroundColor: `#${label.color}`, color: 'black' }}
-              >
-                {label.name}
-              </span>
-            ))}
-          </div>
+        <span className="text-gray-500">
+          #{issue.number} opened {timeSince(issue.created_at)} days ago by{' '}
+          <span className="font-bold">{issue.user.login}</span>
+        </span>
+
+        <div className="flex flex-wrap">
+          {issue.labels.map(({ id, name, color }) => (
+            <span
+              key={id}
+              className="px-2 py-1 mr-2 text-xs text-white font-semibold rounded-full"
+              style={{ backgroundColor: `#${color}` }}
+            >
+              {name}
+            </span>
+          ))}
         </div>
+      </div>
 
-        <div className="d-flex align-items-center">
-          <img src={user.avatar_url} alt="User Avatar" className="avatar" />
-          <span className="px-2">{comments}</span>
-          <FiMessageSquare />
-        </div>
+      <img
+        src={issue.user.avatar_url}
+        alt="User Avatar"
+        className="w-8 h-8 rounded-full"
+      />
+      <div className="flex flex-col mx-2 items-center">
+        <FiMessageSquare size={30} className="min-w-5" color="gray" />
+        <span className="px-4 text-gray-400">
+          {issue.comments}
+        </span>
       </div>
     </div>
   );

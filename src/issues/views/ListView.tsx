@@ -1,60 +1,62 @@
 import { useState } from 'react';
 
-import { LoadingIcon } from '../../shared/components';
+import { LoadingSpinner } from '../../shared';
 import { IssueList, LabelPicker } from '../components';
 import { useIssues } from '../hooks';
 import { State } from '../interfaces';
 
 export const ListView = () => {
-  const [selectedLabels, setSelectedLabels] = useState<string[]>([]);
-  const [state, setstate] = useState<State>();
+  const [state, setState] = useState<State>(State.All);
+  const [labels, setLabels] = useState<string[]>([]);
 
-  const { issuesQuery, page, prevPage, nextPage } = useIssues({ state, labels: selectedLabels });
+  const { issuesQuery, page, hasNextPage, previousPage, nextPage } = useIssues({ state, labels });
 
-  const onLabelChange = (labelName: string) => {
-    setSelectedLabels(
-      selectedLabels.includes(labelName) ? selectedLabels.filter(label => label !== labelName) : [...selectedLabels, labelName]
-    );
-  };
+  const onLabelChange = (label: string) => {
+    if (labels.includes(label)) {
+      setLabels(labels.filter(l => l !== label));
+    } else {
+      setLabels([...labels, label]);
+    }
+  }
 
   return (
-    <div className="row mt-5">
-      <div className="col-8">
+    <div className="grid grid-cols-1 sm:grid-cols-3 mt-5">
+      <div className="col-span-1 sm:col-span-2">
         {issuesQuery.isLoading ? (
-          <LoadingIcon />
+          <LoadingSpinner />
         ) : (
-          <IssueList
-            issues={issuesQuery.data || []}
-            state={state}
-            handleStateChange={newState => setstate(newState)}
-          />
+          <>
+            <IssueList
+              issues={issuesQuery.data ?? []}
+              activeState={state}
+              onStateChange={setState}
+            />
+
+            <div className="flex justify-between items-center">
+              <button
+                className="p-2 bg-blue-500 rounded-md hover:bg-blue-700 transition-all disabled:opacity-50"
+                onClick={previousPage}
+                disabled={page === 1}
+              >
+                Anteriores
+              </button>
+              <span>Página {page}</span>
+              <button
+                className="p-2 bg-blue-500 rounded-md hover:bg-blue-700 transition-all disabled:opacity-50"
+                onClick={nextPage}
+                disabled={!hasNextPage}
+              >
+                Siguientes
+              </button>
+            </div>
+          </>
         )}
-
-        <div className="d-flex mt-2 justify-content-between align-items-center">
-          <button
-            className="btn btn-outline-primary"
-            disabled={issuesQuery.isFetching}
-            onClick={prevPage}
-          >
-            Prev
-          </button>
-
-          <span>{issuesQuery.isFetching ? 'Loading...' : page}</span>
-
-          <button
-            className="btn btn-outline-primary"
-            disabled={issuesQuery.isFetching}
-            onClick={nextPage}
-          >
-            Next
-          </button>
-        </div>
       </div>
 
-      <div className="col-4">
+      <div className="col-span-1 px-2">
         <LabelPicker
-          selectedLabels={selectedLabels}
-          onChange={(labelName) => onLabelChange(labelName)}
+          selectedLabels={labels}
+          onLabelChange={onLabelChange}
         />
       </div>
     </div>

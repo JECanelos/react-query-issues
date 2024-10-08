@@ -1,2 +1,2 @@
-export { sleep } from './sleep';
-export { timeSince } from './time';
+export * from './sleep';
+export * from './time-since';

@@ -1,29 +1,33 @@
 import { FC } from 'react';
 
-import { LoadingIcon } from '../../shared/components';
+import { LoadingSpinner } from '../../shared';
 import { useLabels } from '../hooks';
 
 interface Props {
   selectedLabels: string[];
-  onChange: (labelName: string) => void;
+  onLabelChange: (label: string) => void;
 }
 
-export const LabelPicker: FC<Props> = ({ selectedLabels, onChange }) => {
+export const LabelPicker: FC<Props> = ({ onLabelChange, selectedLabels }) => {
   const { labelsQuery } = useLabels();
 
-  if (labelsQuery.isLoading)
-    return (<LoadingIcon />);
+  if (labelsQuery.isLoading) {
+    return (<LoadingSpinner />);
+  }
 
   return (
-    <div>
-      {labelsQuery.data?.map(label => (
+    <div className="flex flex-wrap gap-2 justify-center">
+      {labelsQuery.data?.map(({ id, name, color }) => (
         <span
-          key={label.id}
-          className={`badge rounded-pill m-1 label-picker${selectedLabels.includes(label.name) ? ' label-active' : ''}`}
-          style={{ border: `1px solid #${label.color}`, color: `#${label.color}` }}
-          onClick={() => onChange(label.name)}
+          key={id}
+          onClick={() => onLabelChange(name)}
+          className={
+            `animate-fadeIn px-2 py-1 rounded-full text-xs font-semibold hover:bg-slate-800 cursor-pointer
+            ${selectedLabels.includes(name) ? 'selected-label' : ''}`
+          }
+          style={{ border: `1px solid #${color}`, color: `#${color}` }}
         >
-          {label.name}
+          {name}
         </span>
       ))}
     </div>
