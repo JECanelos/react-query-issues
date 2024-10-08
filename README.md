@@ -4,15 +4,19 @@ List Git issues of the [React GitHub project](https://github.com/facebook/react)
 
 ## Features Used
 
-- `[useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery)`
+- [`QueryClient`](https://tanstack.com/query/latest/docs/reference/QueryClient)
+  - `defaultOptions`
+- [`useQuery`](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery)
   - `staleTime`
+  - `enabled`
   - `initialData`
   - `placeholderData`
-
-- `[useInfiniteQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useInfiniteQuery)`
+  - pagination
+- [`useInfiniteQuery`](https://tanstack.com/query/latest/docs/framework/react/reference/useInfiniteQuery)
   - `staleTime`
   - `initialPageParam`
   - `getNextPageParam`
+  - pagination
 
 ## Setup
 
